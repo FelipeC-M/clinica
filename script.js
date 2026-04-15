@@ -20,7 +20,7 @@ const CONFIG = {
       { id: "cpf",               label: "CPF",                tipo: "text",  maxlength: "14",  placeholder: "000.000.000-00", pattern: "\d{3}\.\d{3}\.\d{3}-\d{2}" },
       { id: "email",             label: "Email",              tipo: "email", maxlength: "100", placeholder: "email@exemplo.com" },
       { id: "especialidade",     label: "Especialidade",      tipo: "text",  maxlength: "80",  placeholder: "Ex: Cardiologia" },
-      { id: "registro_conselho", label: "Registro (CRM/CRP)", tipo: "text",  maxlength: "20",  placeholder: "CRM-RJ 000000" },
+      { id: "registroConselho", label: "Registro (CRM/CRP)", tipo: "text",  maxlength: "20",  placeholder: "CRM-RJ 000000" },
       { id: "telefone",          label: "Telefone",           tipo: "text",  maxlength: "15",  placeholder: "(21) 00000-0000" },
       { id: "status",            label: "Status",             tipo: "text",  maxlength: "20",  placeholder: "Ativo" }
     ]
@@ -31,7 +31,7 @@ const CONFIG = {
     campos: [
       { id: "nome",             label: "Nome do Serviço", tipo: "text",   maxlength: "100", placeholder: "Ex: Consulta Geral" },
       { id: "descricao",        label: "Descrição",       tipo: "text",   maxlength: "255", placeholder: "Breve descrição do serviço" },
-      { id: "duracao_minutos",  label: "Duração (min)",   tipo: "number", min: "5",   max: "480" },
+      { id: "duracaoMinutos",  label: "Duração (min)",   tipo: "number", min: "5",   max: "480" },
       { id: "valor",            label: "Valor (R$)",      tipo: "number", step: "0.01", min: "0", max: "99999" },
       { id: "status",           label: "Status",          tipo: "text",   maxlength: "20",  placeholder: "Ativo" }
     ]
@@ -40,12 +40,12 @@ const CONFIG = {
     nomeExibicao: "Agendamento",
     rota: "agendamentos",
     campos: [
-      { id: "data_agendamento",  label: "Data",                tipo: "date" },
-      { id: "hora_inicio",       label: "Hora Início",         tipo: "time" },
-      { id: "hora_fim",          label: "Hora Fim",            tipo: "time" },
-      { id: "cliente_id",        label: "ID do Cliente",       tipo: "number", min: "1" },
-      { id: "profissional_id",   label: "ID do Profissional",  tipo: "number", min: "1" },
-      { id: "servico_id",        label: "ID do Serviço",       tipo: "number", min: "1" },
+      { id: "dataAgendamento",  label: "Data",                tipo: "date" },
+      { id: "horaInicio",       label: "Hora Início",         tipo: "time" },
+      { id: "horaFim",          label: "Hora Fim",            tipo: "time" },
+      { id: "cliente.id",        label: "ID do Cliente",       tipo: "number", min: "1" },
+      { id: "profissional.id",   label: "ID do Profissional",  tipo: "number", min: "1" },
+      { id: "servico.id",        label: "ID do Serviço",       tipo: "number", min: "1" },
       { id: "status",            label: "Status",              tipo: "text",   maxlength: "20", placeholder: "Agendado" },
       { id: "observacoes",       label: "Observações",         tipo: "text",   maxlength: "255", placeholder: "Observações opcionais" }
     ]
