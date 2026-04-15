@@ -107,7 +107,7 @@ function mensagemHttp(status, contexto) {
     409: `Conflito de dados — pode já existir um registro com essas informações.`,
     422: `Dados incompletos ou mal formatados. Verifique os campos.`,
     500: `Erro interno no servidor. Tente novamente em instantes.`,
-    503: `Servidor indisponível. Verifique se a API está rodando na porta 8080.`,
+    503: `Servidor indisponível. Verifique se a API está rodando na porta certa.`,
   };
   if (msgs[status]) return msgs[status];
   if (status === 0) return `Não foi possível conectar ao servidor. Verifique se a API está rodando.`;
@@ -280,7 +280,7 @@ async function listar() {
   try {
     let res;
     try { res = await fetch(`${API_BASE}/${config.rota}`); }
-    catch { throw new Error("Não foi possível conectar ao servidor. Verifique se a API está rodando na porta 8080."); }
+    catch { throw new Error("Não foi possível conectar ao servidor. Verifique se a API está rodando na porta certa."); }
     if (!res.ok) throw new Error(mensagemHttp(res.status, 'Erro ao listar'));
     const dados = await res.json();
     renderTabela(dados);
