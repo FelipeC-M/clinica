@@ -310,7 +310,7 @@ async function buscarPorId(id) {
 async function buscarPorNome(nome) {
   const config = getConfigAtual();
   try {
-    const res = await fetch(`${API_BASE}/${config.rota}/buscar/${encodeURIComponent(nome)}`);
+  const res = await fetch(`${API_BASE}/agendamentos/buscar-por-nome?nome=${valorDoInput}`);
     if (!res.ok) throw new Error(mensagemHttp(res.status, 'Erro ao buscar por nome'));
     const dados = await res.json().catch(() => { throw new Error(mensagemHttp(res.status, 'Erro ao buscar por nome')); });
     const lista = Array.isArray(dados) ? dados : [dados];
