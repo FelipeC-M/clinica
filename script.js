@@ -228,14 +228,14 @@ function renderTabela(dados) {
 function normalizarPayload(entidade, dados) {
   if (entidade === "agendamentos") {
     return {
-      data_agendamento: dados.data_agendamento,
-      hora_inicio: dados.hora_inicio,
-      hora_fim: dados.hora_fim,
-      observacoes: dados.observacoes,
-      status: dados.status || "Agendado",
-      cliente: { id: Number(dados.cliente_id) },
-      profissional: { id: Number(dados.profissional_id) },
-      servico: { id: Number(dados.servico_id) }
+      dataAgendamento: dados["dataAgendamento"],
+      horaInicio: dados["horaInicio"],
+      horaFim: dados["horaFim"],
+      observacoes: dados["observacoes"],
+      status: dados["status"] || "Agendado",
+      cliente: { id: Number(dados["cliente.id"]) },
+      profissional: { id: Number(dados["profissional.id"]) },
+      servico: { id: Number(dados["servico.id"]) }
     };
   }
   return dados;
@@ -260,14 +260,14 @@ function preencherFormulario(dados) {
   config.campos.forEach(c => {
     const el = document.getElementById(c.id);
     if (!el) return;
-    if (c.id === "cliente_id" && dados.cliente) {
+
+    if (c.id === "cliente.id" && dados.cliente) {
       el.value = dados.cliente.id ?? "";
-    } else if (c.id === "profissional_id" && dados.profissional) {
+    } else if (c.id === "profissional.id" && dados.profissional) {
       el.value = dados.profissional.id ?? "";
-    } else if (c.id === "servico_id" && dados.servico) {
+    } else if (c.id === "servico.id" && dados.servico) {
       el.value = dados.servico.id ?? "";
     } else {
-      // Tenta snake_case primeiro, depois camelCase (Java API retorna camelCase)
       const camel = snakeToCamel(c.id);
       el.value = dados[c.id] ?? dados[camel] ?? "";
     }
@@ -307,12 +307,16 @@ async function buscarPorId(id) {
   }
 }
 
-async function buscarPorNome(nome) {
+async function buscarPorNome(nome) { // O parâmetro chama 'nome'
   const config = getConfigAtual();
   try {
-  const res = await fetch(`${API_BASE}/agendamentos/buscar-por-nome?nome=${valorDoInput}`);
+    // Trocado 'valorDoInput' por 'nome'
+    const res = await fetch(`${API_BASE}/agendamentos/buscar-por-nome?nome=${nome}`);
+    
     if (!res.ok) throw new Error(mensagemHttp(res.status, 'Erro ao buscar por nome'));
-    const dados = await res.json().catch(() => { throw new Error(mensagemHttp(res.status, 'Erro ao buscar por nome')); });
+    const dados = await res.json();
+    
+    // O resto continua igual...
     const lista = Array.isArray(dados) ? dados : [dados];
     if (!lista.length || !lista[0]) {
       limparTabela();
