@@ -1,4 +1,4 @@
-const API_BASE = "http://clinica-backend-production-9b95.up.railway.app";
+const API_BASE = "https://clinica-backend-production-9b95.up.railway.app";
 
 const CONFIG = {
   clientes: {
