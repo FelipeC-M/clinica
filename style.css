@@ -258,37 +258,38 @@ input::placeholder { color: #aabdd4; }
 .btn-danger:hover      { background: #ffcdd2; }
 button:active { transform: scale(0.98); }
 
-/* AJUSTE NOVOS BOTÕES DE BUSCA */
+/* CONTAINER DE BUSCA (ID + AGENDA) */
 .botoes-container {
   display: flex;
-  gap: 8px;
+  gap: 10px;
   margin-top: 14px;
+  width: 100%;
+  align-items: flex-end; /* Garante alinhamento pela base */
 }
 
-.botoes-container .btn-secundario {
-  flex: 1;
-  margin-top: 0; /* Remove margem superior para alinhar no flex */
+/* Força os botões de busca a terem o mesmo tamanho e estilo */
+#btnBuscarId, #btnBuscarProfissional {
+  flex: 1; /* Faz ambos ocuparem o mesmo espaço */
+  height: 40px; /* Altura fixa para alinhar perfeitamente */
+  margin-top: 0; /* Remove margens individuais */
+  background-color: var(--azul-light) !important;
+  color: var(--azul-dark) !important;
+  border: 1.5px solid var(--azul-mid) !important;
+  font-size: 13px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
 }
 
+/* Oculta o botão de agenda por padrão (JS controla) */
 #btnBuscarProfissional {
-    background-color: var(--azul-light) !important;
-    color: var(--azul-dark) !important;
-    border: 1.5px solid var(--azul-mid) !important;
-    display: none; /* Deixe como none, o JS vai mostrar */
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    padding: 9px 16px;
-    border-radius: var(--radius);
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    margin-top: 14px;
-    width: 100%;
+  display: none; 
 }
 
-#btnBuscarProfissional:hover {
-    background-color: #cde0fb !important;
+#btnBuscarId:hover, #btnBuscarProfissional:hover {
+  background-color: #cde0fb !important;
 }
 
 .topbar .btn-primario { width: auto; flex-shrink: 0; margin-top: 0; }
