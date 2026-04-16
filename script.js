@@ -316,18 +316,30 @@ async function buscarPorId(id) {
 async function buscarPorNome(nome) {
   const config = getConfigAtual();
   const entidadeAtual = getEntidadeSelecionada();
+  
   try {
-    const res = await fetch(`${API_BASE}/${config.rota}/buscar/${encodeURIComponent(nome)}`);
+    // Definimos a URL dependendo da entidade
+    let url;
+    if (entidadeAtual === "agendamentos") {
+        // Agendamentos geralmente usa Query Parameter (?nome=...)
+        url = `${API_BASE}/${config.rota}/buscar-por-nome?nome=${encodeURIComponent(nome)}`;
+    } else {
+        // Clientes e Profissionais usam Path Variable (/buscar/nome) conforme seu novo Controller
+        url = `${API_BASE}/${config.rota}/buscar/${encodeURIComponent(nome)}`;
+    }
+
+    const res = await fetch(url);
     if (!res.ok) throw new Error(mensagemHttp(res.status, 'Erro ao buscar por nome'));
-    const dados = await res.json().catch(() => { throw new Error(mensagemHttp(res.status, 'Erro ao buscar por nome')); });
+    
+    const dados = await res.json();
     const lista = Array.isArray(dados) ? dados : [dados];
+
     if (!lista.length || !lista[0]) {
       limparTabela();
-      mostrarResultado([]);
-      mostrarMensagem(`Nenhum ${config.nomeExibicao.toLowerCase()} encontrado com esse nome.`, "erro");
+      mostrarMensagem(`Nenhum ${config.nomeExibicao.toLowerCase()} encontrado.`, "neutra");
       return;
     }
-    if (getEntidadeSelecionada() !== entidadeAtual) return;
+
     renderTabela(dados);
     mostrarResultado(dados);
     mostrarMensagem(`${lista.length} registro(s) encontrado(s).`, "sucesso");
@@ -335,7 +347,6 @@ async function buscarPorNome(nome) {
     mostrarErro(e.message);
   }
 }
-
 async function adicionar() {
   const config = getConfigAtual();
   const entidade = getEntidadeSelecionada();
