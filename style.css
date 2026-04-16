@@ -201,7 +201,8 @@ input[type="email"],
 input[type="date"],
 input[type="time"] {
   width: 100%;
-  padding: 9px 12px;
+  height: 38px; /* Altura padrão para inputs e botões */
+  padding: 0 12px;
   border: 1.5px solid var(--borda);
   border-radius: var(--radius);
   font-size: 13.5px;
@@ -237,6 +238,7 @@ input::placeholder { color: #aabdd4; }
   justify-content: center;
   gap: 6px;
   padding: 9px 16px;
+  height: 38px; /* Altura padrão para todos os botões */
   border: none;
   border-radius: var(--radius);
   font-size: 13px;
@@ -260,18 +262,25 @@ button:active { transform: scale(0.98); }
 
 /* CONTAINER DE BUSCA (ID + AGENDA) */
 .botoes-container {
-  display: flex;
-  gap: 10px;
-  margin-top: 14px;
-  width: 100%;
-  align-items: flex-end; /* Garante alinhamento pela base */
+  display: flex !important;
+  gap: 8px !important;
+  margin-top: 5px !important; /* Ajuste para não ficar longe do label */
+  width: 100% !important;
+  align-items: center !important; /* Centralização vertical total */
 }
 
-/* Força os botões de busca a terem o mesmo tamanho e estilo */
+/* INPUT DENTRO DO CONTAINER DE BUSCA */
+.botoes-container input[type="number"] {
+  flex: 1;
+  margin-top: 0 !important;
+}
+
+/* BOTÕES DE BUSCA */
 #btnBuscarId, #btnBuscarProfissional {
-  flex: 1; /* Faz ambos ocuparem o mesmo espaço */
-  height: 40px; /* Altura fixa para alinhar perfeitamente */
-  margin-top: 0; /* Remove margens individuais */
+  flex: 1; /* Ambos ocupam o mesmo espaço */
+  height: 38px !important; /* Força a mesma altura do input */
+  margin-top: 0 !important; 
+  padding: 0 12px !important;
   background-color: var(--azul-light) !important;
   color: var(--azul-dark) !important;
   border: 1.5px solid var(--azul-mid) !important;
@@ -283,7 +292,7 @@ button:active { transform: scale(0.98); }
   gap: 6px;
 }
 
-/* Oculta o botão de agenda por padrão (JS controla) */
+/* Oculta por padrão (JS controla) */
 #btnBuscarProfissional {
   display: none; 
 }
