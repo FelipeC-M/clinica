@@ -317,7 +317,6 @@ async function buscarPorNome(nome) {
   const config = getConfigAtual();
   
   try {
-    // CORREÇÃO: Agora todas as entidades usam a rota simplificada e correta
     const url = `${API_BASE}/${config.rota}/buscar/${encodeURIComponent(nome)}`;
 
     const res = await fetch(url);
