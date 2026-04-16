@@ -5,10 +5,10 @@ const CONFIG = {
     nomeExibicao: "Cliente",
     rota: "clientes",
     campos: [
-      { id: "nome",             label: "Nome",               tipo: "text",   maxlength: "100", placeholder: "Nome completo" },
-      { id: "cpf",              label: "CPF",                tipo: "text",   maxlength: "14",  placeholder: "000.000.000-00", pattern: "\d{3}\.\d{3}\.\d{3}-\d{2}" },
-      { id: "email",            label: "Email",              tipo: "email",  maxlength: "100", placeholder: "email@exemplo.com" },
-      { id: "telefone",         label: "Telefone",           tipo: "text",   maxlength: "15",  placeholder: "(21) 00000-0000" },
+      { id: "nome",             label: "Nome",                tipo: "text",   maxlength: "100", placeholder: "Nome completo" },
+      { id: "cpf",              label: "CPF",                 tipo: "text",   maxlength: "14",  placeholder: "000.000.000-00", pattern: "\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}" },
+      { id: "email",            label: "Email",               tipo: "email",  maxlength: "100", placeholder: "email@exemplo.com" },
+      { id: "telefone",         label: "Telefone",            tipo: "text",   maxlength: "15",  placeholder: "(21) 00000-0000" },
       { id: "dataNascimento",   label: "Data de Nascimento", tipo: "date" },
       { id: "observacoes",       label: "Observações",         tipo: "text", maxlength: "255", placeholder: "Observações opcionais" }
     ]
@@ -17,13 +17,13 @@ const CONFIG = {
     nomeExibicao: "Profissional",
     rota: "profissionais",
     campos: [
-      { id: "nome",              label: "Nome",               tipo: "text",  maxlength: "100", placeholder: "Nome completo" },
-      { id: "cpf",               label: "CPF",                tipo: "text",  maxlength: "14",  placeholder: "000.000.000-00", pattern: "\d{3}\.\d{3}\.\d{3}-\d{2}" },
-      { id: "email",             label: "Email",              tipo: "email", maxlength: "100", placeholder: "email@exemplo.com" },
-      { id: "especialidade",     label: "Especialidade",      tipo: "text",  maxlength: "80",  placeholder: "Ex: Cardiologia" },
+      { id: "nome",              label: "Nome",                tipo: "text",  maxlength: "100", placeholder: "Nome completo" },
+      { id: "cpf",               label: "CPF",                 tipo: "text",  maxlength: "14",  placeholder: "000.000.000-00", pattern: "\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}" },
+      { id: "email",             label: "Email",               tipo: "email", maxlength: "100", placeholder: "email@exemplo.com" },
+      { id: "especialidade",     label: "Especialidade",       tipo: "text",  maxlength: "80",  placeholder: "Ex: Cardiologia" },
       { id: "registroConselho", label: "Registro (CRM/CRP)", tipo: "text",  maxlength: "20",  placeholder: "CRM-RJ 000000" },
-      { id: "telefone",          label: "Telefone",           tipo: "text",  maxlength: "15",  placeholder: "(21) 00000-0000" },
-      { id: "status",            label: "Status",             tipo: "text",  maxlength: "20",  placeholder: "Ativo" }
+      { id: "telefone",          label: "Telefone",            tipo: "text",  maxlength: "15",  placeholder: "(21) 00000-0000" },
+      { id: "status",            label: "Status",              tipo: "text",  maxlength: "20",  placeholder: "Ativo" }
     ]
   },
   servicos: {
@@ -41,14 +41,14 @@ const CONFIG = {
     nomeExibicao: "Agendamento",
     rota: "agendamentos",
     campos: [
-      { id: "dataAgendamento",  label: "Data",                tipo: "date" },
-      { id: "horaInicio",       label: "Hora Início",         tipo: "time" },
-      { id: "horaFim",          label: "Hora Fim",            tipo: "time" },
-      { id: "clienteId",        label: "ID do Cliente",       tipo: "number", min: "1" },
-      { id: "profissionalId",   label: "ID do Profissional",  tipo: "number", min: "1" },
-      { id: "servicoId",        label: "ID do Serviço",       tipo: "number", min: "1" },
-      { id: "status",            label: "Status",              tipo: "text",   maxlength: "20", placeholder: "Agendado" },
-      { id: "observacoes",       label: "Observações",         tipo: "text",   maxlength: "255", placeholder: "Observações opcionais" }
+      { id: "dataAgendamento",  label: "Data",                 tipo: "date" },
+      { id: "horaInicio",       label: "Hora Início",          tipo: "time" },
+      { id: "horaFim",          label: "Hora Fim",             tipo: "time" },
+      { id: "clienteId",        label: "ID do Cliente",        tipo: "number", min: "1" },
+      { id: "profissionalId",   label: "ID do Profissional",   tipo: "number", min: "1" },
+      { id: "servicoId",        label: "ID do Serviço",        tipo: "number", min: "1" },
+      { id: "status",            label: "Status",               tipo: "text",   maxlength: "20", placeholder: "Agendado" },
+      { id: "observacoes",       label: "Observações",          tipo: "text",   maxlength: "255", placeholder: "Observações opcionais" }
     ]
   }
 };
@@ -191,7 +191,7 @@ function renderTabela(dados) {
     'especialidade': 'Especialidade', 'status': 'Status', 'observacoes': 'Observações',
     'valor': 'Valor (R$)', 'descricao': 'Descrição', 'registroconselho': 'Registro/CRM',
     'registro_conselho': 'Registro/CRM', 'duracaominutos': 'Duração (min)',
-    'duracao_minutos': 'Duração (min)', 'duracaominutos': 'Duração (min)', 'datanascimento': 'Data de Nascimento', 'dataNascimento': 'Data de Nascimento',
+    'duracao_minutos': 'Duração (min)', 'datanascimento': 'Data de Nascimento', 'dataNascimento': 'Data de Nascimento',
     'dataagendamento': 'Data do Agendamento', 'horainicio': 'Hora Início', 'horafim': 'Hora Fim'
   };
 
@@ -286,7 +286,7 @@ async function listar() {
   try {
     let res;
     try { res = await fetch(`${API_BASE}/${config.rota}`); }
-    catch { throw new Error("Não foi possível conectar ao servidor. Verifique se a API está rodando na porta 8080."); }
+    catch { throw new Error("Não foi possível conectar ao servidor. Verifique se a API está rodando."); }
     if (!res.ok) throw new Error(mensagemHttp(res.status, 'Erro ao listar'));
     const dados = await res.json();
     renderTabela(dados);
@@ -315,18 +315,10 @@ async function buscarPorId(id) {
 
 async function buscarPorNome(nome) {
   const config = getConfigAtual();
-  const entidadeAtual = getEntidadeSelecionada();
   
   try {
-    // Definimos a URL dependendo da entidade
-    let url;
-    if (entidadeAtual === "agendamentos") {
-        // Agendamentos geralmente usa Query Parameter (?nome=...)
-        url = `${API_BASE}/${config.rota}/buscar-por-nome?nome=${encodeURIComponent(nome)}`;
-    } else {
-        // Clientes e Profissionais usam Path Variable (/buscar/nome) conforme seu novo Controller
-        url = `${API_BASE}/${config.rota}/buscar/${encodeURIComponent(nome)}`;
-    }
+    // CORREÇÃO: Agora todas as entidades usam a rota simplificada e correta
+    const url = `${API_BASE}/${config.rota}/buscar/${encodeURIComponent(nome)}`;
 
     const res = await fetch(url);
     if (!res.ok) throw new Error(mensagemHttp(res.status, 'Erro ao buscar por nome'));
@@ -347,6 +339,7 @@ async function buscarPorNome(nome) {
     mostrarErro(e.message);
   }
 }
+
 async function adicionar() {
   const config = getConfigAtual();
   const entidade = getEntidadeSelecionada();
@@ -361,7 +354,6 @@ async function adicionar() {
     });
     
     if (!res.ok) {
-        // LÊ O ERRO REAL DO JAVA (Ex: "Erro: Horário ocupado...")
         const textoErro = await res.text();
         throw new Error(textoErro || mensagemHttp(res.status, "Erro ao adicionar"));
     }
@@ -397,7 +389,6 @@ async function atualizar() {
     });
     
     if (!res.ok) {
-        // LÊ O ERRO REAL DO JAVA
         const textoErro = await res.text();
         throw new Error(textoErro || mensagemHttp(res.status, "Erro ao atualizar"));
     }
@@ -440,29 +431,24 @@ async function deletar() {
 
 // --- CONFIGURAÇÃO DE EVENTOS ---
 function configurarEventos() {
-  // Sidebar nav
   document.querySelectorAll(".nav-item").forEach(btn => {
     btn.addEventListener("click", () => ativarEntidade(btn.dataset.entidade));
   });
 
-  // Listar
   document.getElementById("btnListar").addEventListener("click", listar);
 
-  // Buscar por ID
   document.getElementById("btnBuscarId").addEventListener("click", () => {
     const id = document.getElementById("buscarId").value;
     if (!id) { mostrarMensagem("Digite um ID para buscar.", "erro"); return; }
     buscarPorId(id);
   });
 
-  // Buscar por Nome
   document.getElementById("btnBuscarNome").addEventListener("click", () => {
     const nome = document.getElementById("buscarNome").value.trim();
     if (!nome) { mostrarMensagem("Digite um nome para buscar.", "erro"); return; }
     buscarPorNome(nome);
   });
 
-  // Carregar dados no formulário ao sair do campo idRegistro (blur)
   document.getElementById("idRegistro").addEventListener("blur", async () => {
     const id = document.getElementById("idRegistro").value;
     if (!id) return;
@@ -470,7 +456,6 @@ function configurarEventos() {
     if (dados) preencherFormulario(dados);
   });
 
-  // CRUD
   document.getElementById("btnAdicionar").addEventListener("click", adicionar);
   document.getElementById("btnAtualizar").addEventListener("click", atualizar);
   document.getElementById("btnDeletar").addEventListener("click", deletar);
