@@ -1,28 +1,29 @@
-const API_BASE = "https://clinica-backend-production-9b95.up.railway.app";
+const API_BASE = "http://localhost:8080";
 
 const CONFIG = {
   clientes: {
     nomeExibicao: "Cliente",
     rota: "clientes",
     campos: [
-      { id: "nome",             label: "Nome",                tipo: "text",   maxlength: "100", placeholder: "Nome completo" },
-      { id: "cpf",              label: "CPF",                 tipo: "text",   maxlength: "14",  placeholder: "000.000.000-00", pattern: "\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}" },
-      { id: "email",            label: "Email",               tipo: "email",  maxlength: "100", placeholder: "email@exemplo.com" },
-      { id: "telefone",         label: "Telefone",            tipo: "text",   maxlength: "15",  placeholder: "(21) 00000-0000" },
-      { id: "dataNascimento",   label: "Data de Nascimento", tipo: "date" }
+      { id: "nome",             label: "Nome",               tipo: "text",   maxlength: "100", placeholder: "Nome completo" },
+      { id: "cpf",              label: "CPF",                tipo: "text",   maxlength: "14",  placeholder: "000.000.000-00", pattern: "\d{3}\.\d{3}\.\d{3}-\d{2}" },
+      { id: "email",            label: "Email",              tipo: "email",  maxlength: "100", placeholder: "email@exemplo.com" },
+      { id: "telefone",         label: "Telefone",           tipo: "text",   maxlength: "15",  placeholder: "(21) 00000-0000" },
+      { id: "dataNascimento",   label: "Data de Nascimento", tipo: "date" },
+      { id: "observacoes",       label: "Observações",         tipo: "text", maxlength: "255", placeholder: "Observações opcionais" }
     ]
   },
   profissionais: {
     nomeExibicao: "Profissional",
     rota: "profissionais",
     campos: [
-      { id: "nome",              label: "Nome",                tipo: "text",  maxlength: "100", placeholder: "Nome completo" },
-      { id: "cpf",               label: "CPF",                 tipo: "text",  maxlength: "14",  placeholder: "000.000.000-00", pattern: "\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}" },
-      { id: "email",             label: "Email",               tipo: "email", maxlength: "100", placeholder: "email@exemplo.com" },
-      { id: "especialidade",     label: "Especialidade",       tipo: "text",  maxlength: "80",  placeholder: "Ex: Cardiologia" },
+      { id: "nome",              label: "Nome",               tipo: "text",  maxlength: "100", placeholder: "Nome completo" },
+      { id: "cpf",               label: "CPF",                tipo: "text",  maxlength: "14",  placeholder: "000.000.000-00", pattern: "\d{3}\.\d{3}\.\d{3}-\d{2}" },
+      { id: "email",             label: "Email",              tipo: "email", maxlength: "100", placeholder: "email@exemplo.com" },
+      { id: "especialidade",     label: "Especialidade",      tipo: "text",  maxlength: "80",  placeholder: "Ex: Cardiologia" },
       { id: "registroConselho", label: "Registro (CRM/CRP)", tipo: "text",  maxlength: "20",  placeholder: "CRM-RJ 000000" },
-      { id: "telefone",          label: "Telefone",            tipo: "text",  maxlength: "15",  placeholder: "(21) 00000-0000" },
-      { id: "status",            label: "Status",              tipo: "text",  maxlength: "20",  placeholder: "Ativo" }
+      { id: "telefone",          label: "Telefone",           tipo: "text",  maxlength: "15",  placeholder: "(21) 00000-0000" },
+      { id: "status",            label: "Status",             tipo: "text",  maxlength: "20",  placeholder: "Ativo" }
     ]
   },
   servicos: {
@@ -31,7 +32,7 @@ const CONFIG = {
     campos: [
       { id: "nome",             label: "Nome do Serviço", tipo: "text",   maxlength: "100", placeholder: "Ex: Consulta Geral" },
       { id: "descricao",        label: "Descrição",       tipo: "text",   maxlength: "255", placeholder: "Breve descrição do serviço" },
-      { id: "duracaoMinutos",  label: "Duração (min)",   tipo: "number", min: "5",   max: "480" },
+      { id: "duracaoMinutos",   label: "Duração (min)",   tipo: "number", min: "5",   max: "480" },
       { id: "valor",            label: "Valor (R$)",      tipo: "number", step: "0.01", min: "0", max: "99999" },
       { id: "status",           label: "Status",          tipo: "text",   maxlength: "20",  placeholder: "Ativo" }
     ]
@@ -40,12 +41,12 @@ const CONFIG = {
     nomeExibicao: "Agendamento",
     rota: "agendamentos",
     campos: [
-      { id: "dataAgendamento",  label: "Data",                 tipo: "date" },
-      { id: "horaInicio",       label: "Hora Início",          tipo: "time" },
-      { id: "horaFim",          label: "Hora Fim",             tipo: "time" },
-      { id: "cliente.id",        label: "ID do Cliente",       tipo: "number", min: "1" },
-      { id: "profissional.id",   label: "ID do Profissional",  tipo: "number", min: "1" },
-      { id: "servico.id",        label: "ID do Serviço",       tipo: "number", min: "1" },
+      { id: "dataAgendamento",  label: "Data",                tipo: "date" },
+      { id: "horaInicio",       label: "Hora Início",         tipo: "time" },
+      { id: "horaFim",          label: "Hora Fim",            tipo: "time" },
+      { id: "clienteId",        label: "ID do Cliente",       tipo: "number", min: "1" },
+      { id: "profissionalId",   label: "ID do Profissional",  tipo: "number", min: "1" },
+      { id: "servicoId",        label: "ID do Serviço",       tipo: "number", min: "1" },
       { id: "status",            label: "Status",              tipo: "text",   maxlength: "20", placeholder: "Agendado" },
       { id: "observacoes",       label: "Observações",         tipo: "text",   maxlength: "255", placeholder: "Observações opcionais" }
     ]
@@ -68,15 +69,6 @@ const TITULOS = {
   servicos: "Serviços", agendamentos: "Agendamentos"
 };
 
-// --- NOVA FUNÇÃO DE VISIBILIDADE (PARTE 2) ---
-function atualizarVisibilidadeBotaoAgenda(entidade) {
-    const btnAgenda = document.getElementById("btnBuscarProfissional");
-    if (btnAgenda) {
-        // O botão só aparece quando o menu ativo for "agendamentos"
-        btnAgenda.style.display = (entidade === "agendamentos") ? "inline-flex" : "none";
-    }
-}
-
 function ativarEntidade(entidade) {
   document.getElementById("entidade").value = entidade;
   document.querySelectorAll(".nav-item").forEach(btn => {
@@ -84,10 +76,6 @@ function ativarEntidade(entidade) {
   });
   document.getElementById("tituloPagina").textContent = TITULOS[entidade];
   document.getElementById("subtituloPagina").textContent = SUBTITULOS[entidade];
-  
-  // Chama a função para esconder/mostrar o botão Agenda
-  atualizarVisibilidadeBotaoAgenda(entidade);
-  
   renderizarFormulario();
   limparTabela();
   limparFormulario();
@@ -120,7 +108,7 @@ function mensagemHttp(status, contexto) {
     409: `Conflito de dados — pode já existir um registro com essas informações.`,
     422: `Dados incompletos ou mal formatados. Verifique os campos.`,
     500: `Erro interno no servidor. Tente novamente em instantes.`,
-    503: `Servidor indisponível. Verifique se a API está rodando na porta certa.`,
+    503: `Servidor indisponível. Verifique se a API está rodando na porta 8080.`,
   };
   if (msgs[status]) return msgs[status];
   if (status === 0) return `Não foi possível conectar ao servidor. Verifique se a API está rodando.`;
@@ -157,8 +145,8 @@ function renderizarFormulario() {
     if (campo.maxlength)   input.maxLength = campo.maxlength;
     if (campo.placeholder) input.placeholder = campo.placeholder;
     if (campo.pattern)     input.pattern = campo.pattern;
-    if (campo.min)          input.min = campo.min;
-    if (campo.max)          input.max = campo.max;
+    if (campo.min)         input.min = campo.min;
+    if (campo.max)         input.max = campo.max;
     if (campo.id === "cpf") aplicarMascaraCpf(input);
     if (campo.id === "telefone") aplicarMascaraTelefone(input);
     wrapper.appendChild(label);
@@ -189,78 +177,71 @@ function aplicarMascaraTelefone(input) {
 
 // --- FUNÇÃO RENDER TABELA ---
 function renderTabela(dados) {
-    const lista = Array.isArray(dados) ? dados : [dados];
-    const wrapper = document.getElementById("tabelaWrapper");
-    const entidadeAtiva = getEntidadeSelecionada(); // Pega o menu atual (clientes, profissionais, etc)
+  const lista = Array.isArray(dados) ? dados : [dados];
+  const wrapper = document.getElementById("tabelaWrapper");
+  const entidade = getEntidadeSelecionada();
 
-    if (!lista.length || !lista[0]) {
-        wrapper.innerHTML = '<p class="sem-dados">Nenhum registro encontrado.</p>';
-        return;
-    }
+  if (!lista.length || !lista[0]) {
+    wrapper.innerHTML = '<p class="sem-dados">Nenhum registro encontrado.</p>';
+    return;
+  }
 
-    const nomesAmigaveis = {
-        'id': 'ID', 'nome': 'Nome', 'cpf': 'CPF', 'email': 'E-mail', 'telefone': 'Telefone',
-        'especialidade': 'Especialidade', 'status': 'Status', 'observacoes': 'Observações',
-        'valor': 'Valor (R$)', 'descricao': 'Descrição', 'registroconselho': 'Registro/CRM',
-        'registro_conselho': 'Registro/CRM', 'duracaominutos': 'Duração (min)',
-        'datanascimento': 'Data de Nascimento', 'dataagendamento': 'Data', 
-        'horainicio': 'Início', 'horafim': 'Fim'
-    };
+  const nomesAmigaveis = {
+    'id': 'ID', 'nome': 'Nome', 'cpf': 'CPF', 'email': 'E-mail', 'telefone': 'Telefone',
+    'especialidade': 'Especialidade', 'status': 'Status', 'observacoes': 'Observações',
+    'valor': 'Valor (R$)', 'descricao': 'Descrição', 'registroconselho': 'Registro/CRM',
+    'registro_conselho': 'Registro/CRM', 'duracaominutos': 'Duração (min)',
+    'duracao_minutos': 'Duração (min)', 'duracaominutos': 'Duração (min)', 'datanascimento': 'Data de Nascimento', 'dataNascimento': 'Data de Nascimento',
+    'dataagendamento': 'Data do Agendamento', 'horainicio': 'Hora Início', 'horafim': 'Hora Fim'
+  };
 
-    // Pega as chaves do primeiro objeto da lista para criar o cabeçalho
-    // Filtramos para não mostrar objetos aninhados (como o objeto cliente inteiro dentro do agendamento)
-    const colunas = Object.keys(lista[0]).filter(k => typeof lista[0][k] !== 'object');
+  let html = "<table><thead><tr>";
+  const isSingle = lista.length === 1;
+  const colunas = Object.keys(lista[0]).filter(k => {
+    if (typeof lista[0][k] === 'object') return false;
+    if (!isSingle && k === 'observacoes') return false;
+    return true;
+  });
 
-    let html = "<table><thead><tr>";
-    
-    // Monta o cabeçalho dinâmico
+  colunas.forEach(col => {
+    const nomeBonito = nomesAmigaveis[col.toLowerCase()] || col.toUpperCase();
+    html += `<th>${nomeBonito}</th>`;
+  });
+
+  if (entidade === "agendamentos") html += "<th>CLIENTE</th><th>PROFISSIONAL</th>";
+  html += "</tr></thead><tbody>";
+
+  lista.forEach(item => {
+    html += "<tr>";
     colunas.forEach(col => {
-        const nomeBonito = nomesAmigaveis[col.toLowerCase()] || col.toUpperCase();
-        html += `<th>${nomeBonito}</th>`;
+      let valor = item[col] ?? "";
+      if (col.toLowerCase().includes('hora') && typeof valor === 'string' && valor.length >= 5) {
+        valor = valor.substring(0, 5);
+      }
+      html += `<td>${valor}</td>`;
     });
 
-    // SÓ ADICIONA ESSAS COLUNAS SE ESTIVERMOS REALMENTE NO MENU DE AGENDAMENTOS
-    if (entidadeAtiva === "agendamentos") {
-        html += "<th>CLIENTE</th><th>PROFISSIONAL</th>";
+    if (entidade === "agendamentos") {
+      html += `<td>${item.cliente?.nome ?? item.cliente_id ?? "-"}</td>`;
+      html += `<td>${item.profissional?.nome ?? item.profissional_id ?? "-"}</td>`;
     }
-
-    html += "</tr></thead><tbody>";
-
-    // Monta as linhas
-    lista.forEach(item => {
-        html += "<tr>";
-        colunas.forEach(col => {
-            let valor = item[col] ?? "";
-            
-            // Formata hora se necessário
-            if (col.toLowerCase().includes('hora') && typeof valor === 'string' && valor.length >= 5) {
-                valor = valor.substring(0, 5);
-            }
-            html += `<td>${valor}</td>`;
-        });
-
-        // Preenche as colunas extras de agendamento apenas se for a entidade certa
-        if (entidadeAtiva === "agendamentos") {
-            html += `<td>${item.cliente?.nome ?? "-"}</td>`;
-            html += `<td>${item.profissional?.nome ?? "-"}</td>`;
-        }
-        html += "</tr>";
-    });
-
-    wrapper.innerHTML = html + "</tbody></table>";
+    html += "</tr>";
+  });
+  wrapper.innerHTML = html + "</tbody></table>";
 }
+
 // --- LÓGICA DE DADOS ---
 function normalizarPayload(entidade, dados) {
   if (entidade === "agendamentos") {
     return {
-      dataAgendamento: dados["dataAgendamento"],
-      horaInicio: dados["horaInicio"],
-      horaFim: dados["horaFim"],
-      observacoes: dados["observacoes"],
-      status: dados["status"] || "Agendado",
-      cliente: { id: Number(dados["cliente.id"]) },
-      profissional: { id: Number(dados["profissional.id"]) },
-      servico: { id: Number(dados["servico.id"]) }
+      dataAgendamento: dados.dataAgendamento,
+      horaInicio: dados.horaInicio,
+      horaFim: dados.horaFim,
+      observacoes: dados.observacoes,
+      status: dados.status || "Agendado",
+      cliente: { id: Number(dados.clienteId) },
+      profissional: { id: Number(dados.profissionalId) },
+      servico: { id: Number(dados.servicoId) }
     };
   }
   return dados;
@@ -285,14 +266,14 @@ function preencherFormulario(dados) {
   config.campos.forEach(c => {
     const el = document.getElementById(c.id);
     if (!el) return;
-
-    if (c.id === "cliente.id" && dados.cliente) {
+    if (c.id === "cliente_id" && dados.cliente) {
       el.value = dados.cliente.id ?? "";
-    } else if (c.id === "profissional.id" && dados.profissional) {
+    } else if (c.id === "profissional_id" && dados.profissional) {
       el.value = dados.profissional.id ?? "";
-    } else if (c.id === "servico.id" && dados.servico) {
+    } else if (c.id === "servico_id" && dados.servico) {
       el.value = dados.servico.id ?? "";
     } else {
+      // Tenta snake_case primeiro, depois camelCase (Java API retorna camelCase)
       const camel = snakeToCamel(c.id);
       el.value = dados[c.id] ?? dados[camel] ?? "";
     }
@@ -305,7 +286,7 @@ async function listar() {
   try {
     let res;
     try { res = await fetch(`${API_BASE}/${config.rota}`); }
-    catch { throw new Error("Não foi possível conectar ao servidor. Verifique se a API está rodando na porta certa."); }
+    catch { throw new Error("Não foi possível conectar ao servidor. Verifique se a API está rodando na porta 8080."); }
     if (!res.ok) throw new Error(mensagemHttp(res.status, 'Erro ao listar'));
     const dados = await res.json();
     renderTabela(dados);
@@ -320,14 +301,8 @@ async function buscarPorId(id) {
   const config = getConfigAtual();
   try {
     const res = await fetch(`${API_BASE}/${config.rota}/${id}`);
-    
-    // Se não encontrou, retorna null sem "gritar" erro se não quisermos
-    if (!res.ok) {
-        if (res.status === 404) return null; 
-        throw new Error(mensagemHttp(res.status, 'Erro ao buscar por ID'));
-    }
-
-    const dados = await res.json();
+    if (!res.ok) throw new Error(mensagemHttp(res.status, 'Erro ao buscar por ID'));
+    const dados = await res.json().catch(() => { throw new Error(mensagemHttp(res.status, 'Erro ao buscar por ID')); });
     renderTabela(dados);
     mostrarResultado(dados);
     mostrarMensagem(`${config.nomeExibicao} encontrado!`, "sucesso");
@@ -338,71 +313,24 @@ async function buscarPorId(id) {
   }
 }
 
-async function buscarAgendaPorProfissional(idProfissional) {
-    const id = String(idProfissional).trim();
-    if (!id) {
-        mostrarMensagem("Por favor, digite o ID do profissional.", "erro");
-        return;
-    }
-
-    // Limpa mensagens anteriores para não confundir
-    mostrarMensagem("Buscando agenda...", "neutra");
-
-    const url = `${API_BASE}/agendamentos/buscar-por-profissional/${id}`;
-    
-    try {
-        const res = await fetch(url);
-        
-        // Se o servidor retornar 404 para a ROTA ou se houver erro
-        if (!res.ok) {
-            limparTabela();
-            mostrarErro(`Profissional ID ${id} não encontrado ou erro no servidor.`);
-            return;
-        }
-
-        const dados = await res.json();
-
-        // VALIDAÇÃO REAL: Lista vazia []
-        if (!dados || dados.length === 0) {
-            limparTabela(); // Importante: limpa o que estava na tela antes
-            mostrarResultado([]);
-            mostrarMensagem(`O profissional ID ${id} não possui nenhum agendamento cadastrado.`, "neutra");
-            return; // Mata a execução aqui
-        }
-
-        // Se chegou aqui, TEM dados de verdade
-        renderTabela(dados);
-        mostrarResultado(dados);
-        mostrarMensagem(`Agenda do profissional ${id} carregada: ${dados.length} registro(s).`, "sucesso");
-
-    } catch (e) {
-        console.error("Erro na busca:", e);
-        mostrarErro("Não foi possível conectar ao servidor para buscar a agenda.");
-    }
-}
-
 async function buscarPorNome(nome) {
-  const config = getConfigAtual(); // Pega se é cliente, profissional ou agendamento
+  const config = getConfigAtual();
+  const entidadeAtual = getEntidadeSelecionada();
   try {
-    // A mágica está aqui: ${config.rota} faz buscar no lugar certo
-    const res = await fetch(`${API_BASE}/${config.rota}/buscar-por-nome?nome=${nome}`);
-    
-    if (!res.ok) {
-        if (res.status === 404) {
-            limparTabela();
-            mostrarMensagem(`Nenhum ${config.nomeExibicao.toLowerCase()} encontrado com esse nome.`, "neutra");
-            return;
-        }
-        throw new Error(mensagemHttp(res.status, 'Erro ao buscar por nome'));
+    const res = await fetch(`${API_BASE}/${config.rota}/buscar/${encodeURIComponent(nome)}`);
+    if (!res.ok) throw new Error(mensagemHttp(res.status, 'Erro ao buscar por nome'));
+    const dados = await res.json().catch(() => { throw new Error(mensagemHttp(res.status, 'Erro ao buscar por nome')); });
+    const lista = Array.isArray(dados) ? dados : [dados];
+    if (!lista.length || !lista[0]) {
+      limparTabela();
+      mostrarResultado([]);
+      mostrarMensagem(`Nenhum ${config.nomeExibicao.toLowerCase()} encontrado com esse nome.`, "erro");
+      return;
     }
-
-    const dados = await res.json();
-    
-    // IMPORTANTE: Antes de renderizar, garantimos que a tabela sabe quem ela é
-    renderTabela(dados); 
-    
+    if (getEntidadeSelecionada() !== entidadeAtual) return;
+    renderTabela(dados);
     mostrarResultado(dados);
-    mostrarMensagem(`${Array.isArray(dados) ? dados.length : 1} registro(s) encontrado(s).`, "sucesso");
+    mostrarMensagem(`${lista.length} registro(s) encontrado(s).`, "sucesso");
   } catch (e) {
     mostrarErro(e.message);
   }
@@ -420,12 +348,7 @@ async function adicionar() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload)
     });
-
-    if (!res.ok) {
-      const textoErro = await res.text(); 
-      throw new Error(textoErro || mensagemHttp(res.status, "Erro ao adicionar"));
-    }
-
+    if (!res.ok) throw new Error(mensagemHttp(res.status, "Erro ao adicionar"));
     const dados = await res.json().catch(() => ({}));
     mostrarResultado(dados);
     mostrarMensagem(`${config.nomeExibicao} cadastrado com sucesso!`, "sucesso");
@@ -455,12 +378,7 @@ async function atualizar() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload)
     });
-
-    if (!res.ok) {
-      const textoErro = await res.text();
-      throw new Error(textoErro || mensagemHttp(res.status, "Erro ao atualizar"));
-    }
-
+    if (!res.ok) throw new Error(mensagemHttp(res.status, "Erro ao atualizar"));
     const dados = await res.json().catch(() => ({}));
     mostrarResultado(dados);
     mostrarMensagem(`${config.nomeExibicao} atualizado com sucesso!`, "sucesso");
@@ -499,24 +417,29 @@ async function deletar() {
 
 // --- CONFIGURAÇÃO DE EVENTOS ---
 function configurarEventos() {
+  // Sidebar nav
   document.querySelectorAll(".nav-item").forEach(btn => {
     btn.addEventListener("click", () => ativarEntidade(btn.dataset.entidade));
   });
 
+  // Listar
   document.getElementById("btnListar").addEventListener("click", listar);
 
+  // Buscar por ID
   document.getElementById("btnBuscarId").addEventListener("click", () => {
     const id = document.getElementById("buscarId").value;
     if (!id) { mostrarMensagem("Digite um ID para buscar.", "erro"); return; }
     buscarPorId(id);
   });
 
+  // Buscar por Nome
   document.getElementById("btnBuscarNome").addEventListener("click", () => {
     const nome = document.getElementById("buscarNome").value.trim();
     if (!nome) { mostrarMensagem("Digite um nome para buscar.", "erro"); return; }
     buscarPorNome(nome);
   });
 
+  // Carregar dados no formulário ao sair do campo idRegistro (blur)
   document.getElementById("idRegistro").addEventListener("blur", async () => {
     const id = document.getElementById("idRegistro").value;
     if (!id) return;
@@ -524,26 +447,13 @@ function configurarEventos() {
     if (dados) preencherFormulario(dados);
   });
 
+  // CRUD
   document.getElementById("btnAdicionar").addEventListener("click", adicionar);
   document.getElementById("btnAtualizar").addEventListener("click", atualizar);
   document.getElementById("btnDeletar").addEventListener("click", deletar);
-
-  // Evento do botão Agenda
-  const btnAgenda = document.getElementById("btnBuscarProfissional");
-  if (btnAgenda) {
-      btnAgenda.addEventListener("click", () => {
-        const id = document.getElementById("buscarId").value;
-        if (!id) { 
-            mostrarMensagem("Por favor, digite o ID do profissional.", "erro"); 
-            return; 
-        }
-        buscarAgendaPorProfissional(id);
-    });
-  }
 }
 
 window.addEventListener("DOMContentLoaded", () => {
   configurarEventos();
-  // Garante que ao carregar a página pela primeira vez, a visibilidade esteja correta
-  ativarEntidade(getEntidadeSelecionada());
+  renderizarFormulario();
 });
