@@ -266,14 +266,14 @@ function preencherFormulario(dados) {
   config.campos.forEach(c => {
     const el = document.getElementById(c.id);
     if (!el) return;
-    if (c.id === "cliente_id" && dados.cliente) {
+    
+    if (c.id === "clienteId" && dados.cliente) {
       el.value = dados.cliente.id ?? "";
-    } else if (c.id === "profissional_id" && dados.profissional) {
+    } else if (c.id === "profissionalId" && dados.profissional) {
       el.value = dados.profissional.id ?? "";
-    } else if (c.id === "servico_id" && dados.servico) {
+    } else if (c.id === "servicoId" && dados.servico) {
       el.value = dados.servico.id ?? "";
     } else {
-      // Tenta snake_case primeiro, depois camelCase (Java API retorna camelCase)
       const camel = snakeToCamel(c.id);
       el.value = dados[c.id] ?? dados[camel] ?? "";
     }
@@ -359,7 +359,13 @@ async function adicionar() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload)
     });
-    if (!res.ok) throw new Error(mensagemHttp(res.status, "Erro ao adicionar"));
+    
+    if (!res.ok) {
+        // LÊ O ERRO REAL DO JAVA (Ex: "Erro: Horário ocupado...")
+        const textoErro = await res.text();
+        throw new Error(textoErro || mensagemHttp(res.status, "Erro ao adicionar"));
+    }
+    
     const dados = await res.json().catch(() => ({}));
     mostrarResultado(dados);
     mostrarMensagem(`${config.nomeExibicao} cadastrado com sucesso!`, "sucesso");
@@ -389,7 +395,13 @@ async function atualizar() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload)
     });
-    if (!res.ok) throw new Error(mensagemHttp(res.status, "Erro ao atualizar"));
+    
+    if (!res.ok) {
+        // LÊ O ERRO REAL DO JAVA
+        const textoErro = await res.text();
+        throw new Error(textoErro || mensagemHttp(res.status, "Erro ao atualizar"));
+    }
+    
     const dados = await res.json().catch(() => ({}));
     mostrarResultado(dados);
     mostrarMensagem(`${config.nomeExibicao} atualizado com sucesso!`, "sucesso");
