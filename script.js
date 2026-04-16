@@ -293,25 +293,31 @@ async function listar() {
 
 async function buscarAgendaPorProfissional(idProfissional) {
     try {
-        // Endpoint novo que criamos no Java
-        const res = await fetch(`${API_BASE}/agendamentos/buscar-por-profissional/${idProfissional}`);
+        // Verifica se a API_BASE termina com barra e ajusta
+        const url = `${API_BASE}/agendamentos/buscar-por-profissional/${idProfissional}`;
+        console.log("Tentando buscar em:", url); // Debug para você ver no console F12
+
+        const res = await fetch(url);
         
-        if (!res.ok) throw new Error(mensagemHttp(res.status, 'Erro ao carregar agenda'));
+        if (!res.ok) {
+            const txt = await res.text();
+            throw new Error(txt || "Erro ao buscar agenda");
+        }
         
         const dados = await res.json();
         
-        // Se a lista vier vazia
         if (dados.length === 0) {
             limparTabela();
-            mostrarMensagem("Este profissional não possui agendamentos.", "neutra");
+            mostrarMensagem("Nenhum agendamento para este profissional.", "neutra");
             return;
         }
 
-        renderTabela(dados); // Sua função que já monta a tabela
-        mostrarResultado(dados); // Para o debug no JSON
-        mostrarMensagem(`Agenda do profissional ${idProfissional} carregada!`, "sucesso");
+        renderTabela(dados);
+        mostrarResultado(dados);
+        mostrarMensagem(`Agenda carregada!`, "sucesso");
     } catch (e) {
-        mostrarErro(e.message);
+        console.error(e);
+        mostrarErro("Falha na conexão: " + e.message);
     }
 }
 
