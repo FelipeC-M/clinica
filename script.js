@@ -291,6 +291,30 @@ async function listar() {
   }
 }
 
+async function buscarAgendaPorProfissional(idProfissional) {
+    try {
+        // Endpoint novo que criamos no Java
+        const res = await fetch(`${API_BASE}/agendamentos/buscar-por-profissional/${idProfissional}`);
+        
+        if (!res.ok) throw new Error(mensagemHttp(res.status, 'Erro ao carregar agenda'));
+        
+        const dados = await res.json();
+        
+        // Se a lista vier vazia
+        if (dados.length === 0) {
+            limparTabela();
+            mostrarMensagem("Este profissional não possui agendamentos.", "neutra");
+            return;
+        }
+
+        renderTabela(dados); // Sua função que já monta a tabela
+        mostrarResultado(dados); // Para o debug no JSON
+        mostrarMensagem(`Agenda do profissional ${idProfissional} carregada!`, "sucesso");
+    } catch (e) {
+        mostrarErro(e.message);
+    }
+}
+
 async function buscarPorId(id) {
   const config = getConfigAtual();
   try {
