@@ -304,45 +304,18 @@ async function listar() {
   }
 }
 
-async function buscarAgendaPorProfissional(idProfissional) {
-    const id = String(idProfissional).trim();
-    if (!id) {
-        mostrarErro("Por favor, selecione um profissional primeiro.");
-        return;
-    }
-
-    const url = `${API_BASE}/agendamentos/buscar-por-profissional/${id}`;
-    
-    try {
-        const res = await fetch(url);
-        if (!res.ok) throw new Error("Erro ao buscar dados no servidor.");
-
-        const dados = await res.json();
-
-        // VALIDAÇÃO CRUCIAL: Se a lista estiver vazia
-        if (dados.length === 0) {
-            renderTabela([]); // Limpa a tabela para não mostrar lixo
-            mostrarMensagem(`O profissional ID ${id} não possui agendamentos.`, "neutra");
-            // O 'return' abaixo impede que o código continue para a linha de "sucesso"
-            return; 
-        }
-
-        // Se chegou aqui, é porque TEM dados
-        renderTabela(dados);
-        mostrarResultado(dados);
-        mostrarMensagem(`Agenda do profissional ${id} carregada com sucesso!`, "sucesso");
-
-    } catch (e) {
-        console.error("Erro na busca:", e);
-        mostrarErro("Falha ao carregar agenda. Verifique sua conexão ou o ID.");
-    }
-}
 async function buscarPorId(id) {
   const config = getConfigAtual();
   try {
     const res = await fetch(`${API_BASE}/${config.rota}/${id}`);
-    if (!res.ok) throw new Error(mensagemHttp(res.status, 'Erro ao buscar por ID'));
-    const dados = await res.json().catch(() => { throw new Error(mensagemHttp(res.status, 'Erro ao buscar por ID')); });
+    
+    // Se não encontrou, retorna null sem "gritar" erro se não quisermos
+    if (!res.ok) {
+        if (res.status === 404) return null; 
+        throw new Error(mensagemHttp(res.status, 'Erro ao buscar por ID'));
+    }
+
+    const dados = await res.json();
     renderTabela(dados);
     mostrarResultado(dados);
     mostrarMensagem(`${config.nomeExibicao} encontrado!`, "sucesso");
@@ -351,6 +324,49 @@ async function buscarPorId(id) {
     mostrarErro(e.message);
     return null;
   }
+}
+
+async function buscarAgendaPorProfissional(idProfissional) {
+    const id = String(idProfissional).trim();
+    if (!id) {
+        mostrarMensagem("Por favor, digite o ID do profissional.", "erro");
+        return;
+    }
+
+    // Limpa mensagens anteriores para não confundir
+    mostrarMensagem("Buscando agenda...", "neutra");
+
+    const url = `${API_BASE}/agendamentos/buscar-por-profissional/${id}`;
+    
+    try {
+        const res = await fetch(url);
+        
+        // Se o servidor retornar 404 para a ROTA ou se houver erro
+        if (!res.ok) {
+            limparTabela();
+            mostrarErro(`Profissional ID ${id} não encontrado ou erro no servidor.`);
+            return;
+        }
+
+        const dados = await res.json();
+
+        // VALIDAÇÃO REAL: Lista vazia []
+        if (!dados || dados.length === 0) {
+            limparTabela(); // Importante: limpa o que estava na tela antes
+            mostrarResultado([]);
+            mostrarMensagem(`O profissional ID ${id} não possui nenhum agendamento cadastrado.`, "neutra");
+            return; // Mata a execução aqui
+        }
+
+        // Se chegou aqui, TEM dados de verdade
+        renderTabela(dados);
+        mostrarResultado(dados);
+        mostrarMensagem(`Agenda do profissional ${id} carregada: ${dados.length} registro(s).`, "sucesso");
+
+    } catch (e) {
+        console.error("Erro na busca:", e);
+        mostrarErro("Não foi possível conectar ao servidor para buscar a agenda.");
+    }
 }
 
 async function buscarPorNome(nome) {
