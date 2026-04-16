@@ -189,54 +189,66 @@ function aplicarMascaraTelefone(input) {
 
 // --- FUNÇÃO RENDER TABELA ---
 function renderTabela(dados) {
-  const lista = Array.isArray(dados) ? dados : [dados];
-  const wrapper = document.getElementById("tabelaWrapper");
-  const entidade = getEntidadeSelecionada();
+    const lista = Array.isArray(dados) ? dados : [dados];
+    const wrapper = document.getElementById("tabelaWrapper");
+    const entidadeAtiva = getEntidadeSelecionada(); // Pega o menu atual (clientes, profissionais, etc)
 
-  if (!lista.length || !lista[0]) {
-    wrapper.innerHTML = '<p class="sem-dados">Nenhum registro encontrado.</p>';
-    return;
-  }
+    if (!lista.length || !lista[0]) {
+        wrapper.innerHTML = '<p class="sem-dados">Nenhum registro encontrado.</p>';
+        return;
+    }
 
-  const nomesAmigaveis = {
-    'id': 'ID', 'nome': 'Nome', 'cpf': 'CPF', 'email': 'E-mail', 'telefone': 'Telefone',
-    'especialidade': 'Especialidade', 'status': 'Status', 'observacoes': 'Observações',
-    'valor': 'Valor (R$)', 'descricao': 'Descrição', 'registroconselho': 'Registro/CRM',
-    'registro_conselho': 'Registro/CRM', 'duracaominutos': 'Duração (min)',
-    'duracao_minutos': 'Duração (min)', 'datanascimento': 'Data de Nascimento', 'dataNascimento': 'Data de Nascimento',
-    'dataagendamento': 'Data do Agendamento', 'horainicio': 'Hora Início', 'horafim': 'Hora Fim'
-  };
+    const nomesAmigaveis = {
+        'id': 'ID', 'nome': 'Nome', 'cpf': 'CPF', 'email': 'E-mail', 'telefone': 'Telefone',
+        'especialidade': 'Especialidade', 'status': 'Status', 'observacoes': 'Observações',
+        'valor': 'Valor (R$)', 'descricao': 'Descrição', 'registroconselho': 'Registro/CRM',
+        'registro_conselho': 'Registro/CRM', 'duracaominutos': 'Duração (min)',
+        'datanascimento': 'Data de Nascimento', 'dataagendamento': 'Data', 
+        'horainicio': 'Início', 'horafim': 'Fim'
+    };
 
-  let html = "<table><thead><tr>";
-  const colunas = Object.keys(lista[0]).filter(k => typeof lista[0][k] !== 'object');
+    // Pega as chaves do primeiro objeto da lista para criar o cabeçalho
+    // Filtramos para não mostrar objetos aninhados (como o objeto cliente inteiro dentro do agendamento)
+    const colunas = Object.keys(lista[0]).filter(k => typeof lista[0][k] !== 'object');
 
-  colunas.forEach(col => {
-    const nomeBonito = nomesAmigaveis[col.toLowerCase()] || col.toUpperCase();
-    html += `<th>${nomeBonito}</th>`;
-  });
-
-  if (entidade === "agendamentos") html += "<th>CLIENTE</th><th>PROFISSIONAL</th>";
-  html += "</tr></thead><tbody>";
-
-  lista.forEach(item => {
-    html += "<tr>";
+    let html = "<table><thead><tr>";
+    
+    // Monta o cabeçalho dinâmico
     colunas.forEach(col => {
-      let valor = item[col] ?? "";
-      if (col.toLowerCase().includes('hora') && typeof valor === 'string' && valor.length >= 5) {
-        valor = valor.substring(0, 5);
-      }
-      html += `<td>${valor}</td>`;
+        const nomeBonito = nomesAmigaveis[col.toLowerCase()] || col.toUpperCase();
+        html += `<th>${nomeBonito}</th>`;
     });
 
-    if (entidade === "agendamentos") {
-      html += `<td>${item.cliente?.nome ?? item.cliente_id ?? "-"}</td>`;
-      html += `<td>${item.profissional?.nome ?? item.profissional_id ?? "-"}</td>`;
+    // SÓ ADICIONA ESSAS COLUNAS SE ESTIVERMOS REALMENTE NO MENU DE AGENDAMENTOS
+    if (entidadeAtiva === "agendamentos") {
+        html += "<th>CLIENTE</th><th>PROFISSIONAL</th>";
     }
-    html += "</tr>";
-  });
-  wrapper.innerHTML = html + "</tbody></table>";
-}
 
+    html += "</tr></thead><tbody>";
+
+    // Monta as linhas
+    lista.forEach(item => {
+        html += "<tr>";
+        colunas.forEach(col => {
+            let valor = item[col] ?? "";
+            
+            // Formata hora se necessário
+            if (col.toLowerCase().includes('hora') && typeof valor === 'string' && valor.length >= 5) {
+                valor = valor.substring(0, 5);
+            }
+            html += `<td>${valor}</td>`;
+        });
+
+        // Preenche as colunas extras de agendamento apenas se for a entidade certa
+        if (entidadeAtiva === "agendamentos") {
+            html += `<td>${item.cliente?.nome ?? "-"}</td>`;
+            html += `<td>${item.profissional?.nome ?? "-"}</td>`;
+        }
+        html += "</tr>";
+    });
+
+    wrapper.innerHTML = html + "</tbody></table>";
+}
 // --- LÓGICA DE DADOS ---
 function normalizarPayload(entidade, dados) {
   if (entidade === "agendamentos") {
