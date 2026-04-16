@@ -305,31 +305,31 @@ async function listar() {
 }
 
 async function buscarAgendaPorProfissional(idProfissional) {
+    const id = String(idProfissional).trim();
+    // Forçamos a URL sem barras duplas ou espaços
+    const url = `${API_BASE}/agendamentos/buscar-por-profissional/${id}`;
+    
+    console.log("URL Final:", url);
+
     try {
-        const url = `${API_BASE}/agendamentos/buscar-por-profissional/${idProfissional}`;
-        console.log("Tentando buscar em:", url);
+        const res = await fetch(url, {
+            method: 'GET',
+            headers: { 'Accept': 'application/json' }
+        });
 
-        const res = await fetch(url);
-        
         if (!res.ok) {
-            const txt = await res.text();
-            throw new Error(txt || "Erro ao buscar agenda");
-        }
-        
-        const dados = await res.json();
-        
-        if (!dados || dados.length === 0) {
-            limparTabela();
-            mostrarMensagem("Nenhum agendamento para este profissional.", "neutra");
-            return;
+            // Se der 404 aqui, o erro é no nome da rota no Java
+            throw new Error(`Servidor respondeu com erro ${res.status}`);
         }
 
+        const dados = await res.json();
         renderTabela(dados);
         mostrarResultado(dados);
-        mostrarMensagem(`Agenda carregada!`, "sucesso");
+        mostrarMensagem(`Agenda do profissional ${id} carregada.`, "sucesso");
     } catch (e) {
-        console.error(e);
-        mostrarErro("Falha na conexão: " + e.message);
+        console.error("Erro no Fetch:", e);
+        // Se cair aqui com erro de CORS, é porque o Java deu 404 lá no Railway
+        mostrarErro("Erro ao acessar agenda. Verifique se o ID do profissional existe.");
     }
 }
 
