@@ -370,23 +370,26 @@ async function buscarAgendaPorProfissional(idProfissional) {
 }
 
 async function buscarPorNome(nome) {
-  const config = getConfigAtual();
+  const config = getConfigAtual(); // Pega a configuração do menu onde você está
   try {
-    const res = await fetch(`${API_BASE}/agendamentos/buscar-por-nome?nome=${nome}`);
+    // Agora a rota será dinâmica (ex: /clientes/buscar-por-nome ou /profissionais/buscar-por-nome)
+    const res = await fetch(`${API_BASE}/${config.rota}/buscar-por-nome?nome=${nome}`);
     
     if (!res.ok) throw new Error(mensagemHttp(res.status, 'Erro ao buscar por nome'));
+    
     const dados = await res.json();
     
     const lista = Array.isArray(dados) ? dados : [dados];
     if (!lista.length || !lista[0]) {
       limparTabela();
       mostrarResultado([]);
-      mostrarMensagem(`Nenhum ${config.nomeExibicao.toLowerCase()} encontrado com esse nome.`, "erro");
+      mostrarMensagem(`Nenhum ${config.nomeExibicao.toLowerCase()} encontrado com esse nome.`, "neutra");
       return;
     }
+    
     renderTabela(dados);
     mostrarResultado(dados);
-    mostrarMensagem(`${lista.length} registro(s) encontrado(s).`, "sucesso");
+    mostrarMensagem(`${lista.length} ${config.nomeExibicao.toLowerCase()}(s) encontrado(s).`, "sucesso");
   } catch (e) {
     mostrarErro(e.message);
   }
