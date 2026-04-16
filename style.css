@@ -274,14 +274,21 @@ button:active { transform: scale(0.98); }
     background-color: var(--azul-light) !important;
     color: var(--azul-dark) !important;
     border: 1.5px solid var(--azul-mid) !important;
-    display: none; 
+    display: none; /* Deixe como none, o JS vai mostrar */
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 9px 16px;
+    border-radius: var(--radius);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
     margin-top: 14px;
-    transition: all 0.2s;
+    width: 100%;
 }
 
 #btnBuscarProfissional:hover {
     background-color: #cde0fb !important;
-    filter: brightness(0.95);
 }
 
 .topbar .btn-primario { width: auto; flex-shrink: 0; margin-top: 0; }
