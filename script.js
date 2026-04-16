@@ -382,26 +382,27 @@ async function buscarAgendaPorProfissional(idProfissional) {
 }
 
 async function buscarPorNome(nome) {
-  const config = getConfigAtual(); // Pega a configuração do menu onde você está
+  const config = getConfigAtual(); // Pega se é cliente, profissional ou agendamento
   try {
-    // Agora a rota será dinâmica (ex: /clientes/buscar-por-nome ou /profissionais/buscar-por-nome)
+    // A mágica está aqui: ${config.rota} faz buscar no lugar certo
     const res = await fetch(`${API_BASE}/${config.rota}/buscar-por-nome?nome=${nome}`);
     
-    if (!res.ok) throw new Error(mensagemHttp(res.status, 'Erro ao buscar por nome'));
-    
+    if (!res.ok) {
+        if (res.status === 404) {
+            limparTabela();
+            mostrarMensagem(`Nenhum ${config.nomeExibicao.toLowerCase()} encontrado com esse nome.`, "neutra");
+            return;
+        }
+        throw new Error(mensagemHttp(res.status, 'Erro ao buscar por nome'));
+    }
+
     const dados = await res.json();
     
-    const lista = Array.isArray(dados) ? dados : [dados];
-    if (!lista.length || !lista[0]) {
-      limparTabela();
-      mostrarResultado([]);
-      mostrarMensagem(`Nenhum ${config.nomeExibicao.toLowerCase()} encontrado com esse nome.`, "neutra");
-      return;
-    }
+    // IMPORTANTE: Antes de renderizar, garantimos que a tabela sabe quem ela é
+    renderTabela(dados); 
     
-    renderTabela(dados);
     mostrarResultado(dados);
-    mostrarMensagem(`${lista.length} ${config.nomeExibicao.toLowerCase()}(s) encontrado(s).`, "sucesso");
+    mostrarMensagem(`${Array.isArray(dados) ? dados.length : 1} registro(s) encontrado(s).`, "sucesso");
   } catch (e) {
     mostrarErro(e.message);
   }
