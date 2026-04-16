@@ -453,3 +453,13 @@ window.addEventListener("DOMContentLoaded", () => {
   configurarEventos();
   renderizarFormulario();
 });
+
+//Buscar profissional por id
+document.getElementById("btnBuscarProfissional").addEventListener("click", () => {
+    const id = document.getElementById("buscarId").value;
+    if (!id) { 
+        mostrarMensagem("Por favor, digite o ID do profissional.", "erro"); 
+        return; 
+    }
+    buscarAgendaPorProfissional(id);
+});
