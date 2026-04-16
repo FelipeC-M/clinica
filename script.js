@@ -368,7 +368,13 @@ async function adicionar() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload)
     });
-    if (!res.ok) throw new Error(mensagemHttp(res.status, "Erro ao adicionar"));
+
+    // AJUSTE AQUI: Se não for OK, tenta ler o texto do erro enviado pelo Java
+    if (!res.ok) {
+      const textoErro = await res.text(); 
+      throw new Error(textoErro || mensagemHttp(res.status, "Erro ao adicionar"));
+    }
+
     const dados = await res.json().catch(() => ({}));
     mostrarResultado(dados);
     mostrarMensagem(`${config.nomeExibicao} cadastrado com sucesso!`, "sucesso");
@@ -398,7 +404,13 @@ async function atualizar() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload)
     });
-    if (!res.ok) throw new Error(mensagemHttp(res.status, "Erro ao atualizar"));
+
+    // AJUSTE AQUI: Se não for OK, tenta ler o texto do erro enviado pelo Java
+    if (!res.ok) {
+      const textoErro = await res.text();
+      throw new Error(textoErro || mensagemHttp(res.status, "Erro ao atualizar"));
+    }
+
     const dados = await res.json().catch(() => ({}));
     mostrarResultado(dados);
     mostrarMensagem(`${config.nomeExibicao} atualizado com sucesso!`, "sucesso");
